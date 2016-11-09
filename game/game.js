@@ -195,9 +195,7 @@ window.onload = function(){
                     gameOver = true;
                     alert("GAME OVER");
                 }
-
                 document.location.reload();
-                 ball.dy = - ball.dy;
             }
         }
 
