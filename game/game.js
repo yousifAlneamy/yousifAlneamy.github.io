@@ -1,3 +1,8 @@
+/**
+* This code is a change of a code posted by mozilla of a sample game called "2D breakout game using pure JavaScript".
+* this game is responsive now and the more smarter than the sample code
+**/
+
 window.onload = function(){
 
     var canvas = document.getElementById("myCanvas");    
