@@ -12,7 +12,7 @@ window.onload = function(){
     var rightPressed = false;
     var leftPressed = false;
     var responsiveSpeed = 10 * ((320 * 480) / (canvas.height * canvas.width));
-    var stratX = getRandom(0, canvas.width);
+    var stratX = getRandom( canvas.width / 4, 3 * canvas.width / 4);
     var score = 0;
     var gameOver = false;
 
@@ -40,7 +40,7 @@ window.onload = function(){
         return obj;
     }(canvas);
 
-    console.log(brickBlock);
+    console.log(responsiveSpeed);
     var ball = function(canvas, stratX, dx, dy, radius){
       return {
           x : stratX,
@@ -143,19 +143,18 @@ window.onload = function(){
                 var brick = brickBlock.bricks[c][r];
                 if(brick.status == 1) {
                     if(ball.x > brick.x && ball.x < brick.x + brickBlock.width && ball.y > brick.y && ball.y < brick.y + brickBlock.height) {
-                        if(ball.x > brick.x && ball.x < brick.x + brickBlock.width){
-                            ball.dy = - ball.dy;
+                        if(ball.y > brick.y + Math.abs(ball.dy) && ball.y < brick.y + brickBlock.height - Math.abs(ball.dy)){
+                            ball.dx = - ball.dx;
                         } else{
-                            ball.dx = - ball.dx;    
+                            ball.dy = - ball.dy;
                         }
                         brick.status = 0;
                         score++;
 
-                        if(score == brickBlock.rowCount * brickBlock.columnCount * brickBlock.restCount) {
+                        if(score >= brickBlock.rowCount * brickBlock.columnCount * brickBlock.resetCount) {
                             brickBlock.resetCount++;
                             brickBlock.resetBricks();// rset the bricks stats property
                             responsiveSpeed = responsiveSpeed * 0.9;
-                            timer();
                         }
 
                     }
@@ -183,6 +182,9 @@ window.onload = function(){
     }
 
     function ballMovementHandler(){
+        
+        ball.x += ball.dx;
+        ball.y += ball.dy;
         if(ball.x + ball.dx > canvas.width - ball.radius || ball.x + ball.dx < ball.radius) {
             ball.dx = - ball.dx;
         }
@@ -203,9 +205,6 @@ window.onload = function(){
                 document.location.reload();
             }
         }
-
-         ball.x += ball.dx;
-         ball.y += ball.dy;
     }
     function paddleMovementHandler(){
         if(rightPressed && paddle.x < canvas.width - paddle.width){
@@ -218,13 +217,12 @@ window.onload = function(){
     }
 
 
-    var timer = function(responsiveSpeed){
+    var timer = function speedTimer(){
         draw();
-        setTimeout(timer, responsiveSpeed);
+        setTimeout(speedTimer, responsiveSpeed);
     }
     function start(){
-        setInterval(draw, responsiveSpeed);
-        console.log("responsiveSpeed= ", responsiveSpeed);
+        setTimeout(timer, responsiveSpeed);
     }
     start();
 }
