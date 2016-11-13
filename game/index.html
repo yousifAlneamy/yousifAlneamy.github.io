@@ -9,8 +9,39 @@
         padding: 0;
         margin: 0;
     }
+    body {
+        position: relative;
+    }
     canvas {
         background: #eeeeee;
+    }
+    #options {
+        position: absolute;
+        left: calc(50% - 100px);
+        top: calc(50% - 100px);
+        width: 200px;
+        height: 160px;
+        background: gray;
+        text-align: center;
+        border: none;
+        border-radius: 10px;
+    }
+    .button {
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+        width: 150px;
+    }
+    .hidden {
+        display: none;
     }
 </style>
     <script src="game.js"></script>
@@ -19,10 +50,10 @@
     <div id="mainDiv">
         <canvas id="myCanvas"></canvas>
     </div>
-<script>
-    
-</script>
-</script>
-</script>
+    <div id="options">
+        <button id="computer" class="button">Computer</button>
+        <br>
+        <button id="human" class="button">Human</button>
+    </div>
 </body>
 </html>
