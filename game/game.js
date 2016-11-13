@@ -218,7 +218,9 @@ window.onload = function reload(){
 
     var timer = function speedTimer(){
         draw();
-        setTimeout(speedTimer, responsiveSpeed);
+        if ( ! gameOver ){
+            setTimeout(speedTimer, responsiveSpeed);
+        }
     }
     function start(){
         setTimeout(timer, responsiveSpeed);
