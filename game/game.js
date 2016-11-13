@@ -202,7 +202,6 @@ window.onload = function reload(){
                     gameOver = true;
                     reload();
                 }
-                document.location.reload();
             }
         }
     }
