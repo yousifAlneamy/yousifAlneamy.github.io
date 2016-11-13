@@ -3,6 +3,8 @@
 * this game is responsive now and the more smarter than the sample code
 **/
 
+var isComputer = true;
+
 window.onload = function reload(){
 
     var canvas = document.getElementById("myCanvas");    
@@ -15,7 +17,22 @@ window.onload = function reload(){
     var stratX = getRandom( canvas.width / 4, 3 * canvas.width / 4);
     var score = 0;
     var gameOver = false;
+    
+    var human = document.getElementById("human");
+    var computer = document.getElementById("computer");
 
+    human.addEventListener("click", function(){return userOption("human");});
+    computer.addEventListener("click", function(){return userOption("computer");});
+    function userOption(option){
+        document.getElementById("options").className += " hidden";
+        if ( option == "human"){
+            isComputer = false;
+            gameOver = true;
+            reload();
+        } else{
+            isComputer = true;
+        }
+    }
 
     var brickBlock = function(canvas, width, height, padding, offSetTop, offSetLeft, rowCount, columnCount){
         var obj = {
@@ -61,8 +78,11 @@ window.onload = function reload(){
 
 
     //brickOffsetLeft = (canvas.width - ((brickColumnCount * (brickWidth + brickPadding)))) / 2;
-    document.addEventListener("keydown", keyDownHandler);
-    document.addEventListener("keyup", keyUpHandler);
+    
+    if ( ! isComputer ){ // if not the computer is playing then add listeners
+        document.addEventListener("keydown", keyDownHandler);
+        document.addEventListener("keyup", keyUpHandler);   
+    }
 
     function getRandomColor() {
         return getRandom(0, 255);
@@ -113,7 +133,7 @@ window.onload = function reload(){
         ctx.arc(ball.x, ball.y, ball.radius, 0, 2*Math.PI);
         ctx.fill();
         ctx.closePath();
-        }
+    }
 
     function drawPaddle(){
         ctx.beginPath();
@@ -121,7 +141,7 @@ window.onload = function reload(){
         ctx.rect(paddle.x, canvas.height - paddle.height, paddle.width, paddle.height); // drawing the paddle for the ball will bounce on
         ctx.fill();
         ctx.closePath();
-        }
+    }
 
     function drawBricks() {
         for(c = 0; c < brickBlock.columnCount; c++) {
@@ -206,14 +226,24 @@ window.onload = function reload(){
             }
         }
     }
+    
     function paddleMovementHandler(){
+        
+        if ( isComputer && Math.abs(ball.x - paddle.x + paddle.width / 2) > 7 ){
+            if ( ball.x > paddle.x + paddle.width / 2 ) {
+                rightPressed = true;
+                leftPressed = false;
+            } else{
+                rightPressed = false;
+                leftPressed = true;
+            }
+        }
         if(rightPressed && paddle.x < canvas.width - paddle.width){
             paddle.x += 7;
         } 
-        // removing else so that pressing both right and left give no movement as -7 + +7 = 0
-      if(leftPressed && paddle.x > 0 ){
+        if(leftPressed && paddle.x > 0 ){
               paddle.x -= 7;
-      }
+        }
     }
 
 
