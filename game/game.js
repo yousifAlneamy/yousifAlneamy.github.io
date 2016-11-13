@@ -3,7 +3,7 @@
 * this game is responsive now and the more smarter than the sample code
 **/
 
-window.onload = function(){
+window.onload = function reload(){
 
     var canvas = document.getElementById("myCanvas");    
     canvas.width  = canvas.offsetWidth;
@@ -200,7 +200,7 @@ window.onload = function(){
             else {
                 if ( ! gameOver ){
                     gameOver = true;
-                    alert("GAME OVER");
+                    reload();
                 }
                 document.location.reload();
             }
