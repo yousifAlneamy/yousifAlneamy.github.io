@@ -202,6 +202,7 @@ window.onload = function reload(){
                     gameOver = true;
                     reload();
                 }
+                //document.location.reload();
             }
         }
     }
@@ -216,10 +217,10 @@ window.onload = function reload(){
     }
 
 
-    var timer = function speedTimer(){
+    var timer = function(){
         draw();
-        if ( ! gameOver ){
-            setTimeout(speedTimer, responsiveSpeed);
+        if (! gameOver){
+            setTimeout(timer, responsiveSpeed);   
         }
     }
     function start(){
