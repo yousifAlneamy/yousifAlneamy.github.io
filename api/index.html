@@ -1,0 +1,87 @@
+<html>
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <style>
+        .loader {
+            /*     border: 16px solid whitesmoke; Light grey */
+                border-top: 20px solid goldenrod; 
+                border-bottom: 20px solid goldenrod;
+                border-left: 10px solid silver;
+                border-radius: 50%;
+                width: 120px;
+                height: 120px;
+                animation: spin 2s linear infinite;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }    
+            
+    </style>
+</head>
+
+<body>
+
+    
+    
+    <h1>Search Movies</h1>
+    <div>
+        <input id="queryMovie" type="text" placeholder="enter movie name">
+        <input type="button" value="Search" id="searchButton">
+    </div>
+    
+    <div class="loader" id="resultLoader"></div>    
+    <div id="result-div"></div>
+    
+        <script>
+            var searchButton = document.getElementById("searchButton");
+            var queryMovie = document.getElementById("queryMovie");
+            var resultDiv = document.getElementById("result-div");
+            hideElem("resultLoader");
+            var moviesArray;
+            
+            searchButton.addEventListener("click", findMovies);
+            
+            function findMovies(){
+                showElem("resultLoader");
+                moviesArray = []
+                var query = queryMovie.value;
+                var requestURL = "https://yts.ag/api/v2/list_movies.json?query_term=" + encodeURIComponent(query);
+                var jsonResult  = $.getJSON(requestURL);
+                jsonResult.done(function(data) {
+                    console.log(data.data.movies);
+                    $.each(data.data.movies, function(index, movie) {
+                        resultsObj = {index: index, name: movie.title_long, imgSrc: movie.medium_cover_image, des: movie.description_full};
+                        console.log(resultsObj);
+                        moviesArray.push(resultsObj);
+                    });
+                    showMovies();    
+                    console.log(moviesArray);
+                });
+                jsonResult.always(function(){
+                   hideElem("resultLoader"); 
+                });
+                function showMovies(){
+                    resultDiv.innerHTML = "";
+                    moviesArray.forEach(function(movie, index) {
+                        resultDiv.innerHTML += "<div id='" + movie.index + movie.name.toString().replace(/\s/g, '') + "'>"
+                        + "<h2>"+ movie.name + "</h2>"
+                        + "<img src='" + movie.imgSrc + "'>"
+                        + "<p>" + movie.des + "</p>"
+                        + "</div>"
+                    });
+                }    
+            }
+            
+            function hideElem(el) {
+                document.getElementById(el).style.display = "none"; 
+            }
+
+            function showElem(el) {
+                document.getElementById(el).style.display = "block"; 
+            }
+            
+    </script>
+</body>
+</html>
