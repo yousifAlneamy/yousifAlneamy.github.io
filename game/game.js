@@ -78,6 +78,9 @@ window.onload = function reload(){
     document.addEventListener("keydown", keyDownHandler);
     document.addEventListener("keyup", keyUpHandler);
     document.addEventListener("mousemove", mouseMoveHandler, false);
+    document.addEventListener("click", canvasClickListener, false);
+    document.addEventListener("mouseup", canvasClickListener, false);
+    document.addEventListener("mousedown", canvasClickListener, false);
   }
 
   function getRandomColor() {
@@ -120,8 +123,16 @@ window.onload = function reload(){
       leftPressed = false;
     }
   }
-  
+
   function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width) {
+      paddle.x = relativeX - paddle.width/2;
+    }
+    console.log(paddle, relativeX, e.clientX, canvas.offsetLeft);
+  }
+
+  function canvasClickListener(e) {
     var relativeX = e.clientX - canvas.offsetLeft;
     if(relativeX > 0 && relativeX < canvas.width) {
       paddle.x = relativeX - paddle.width/2;
